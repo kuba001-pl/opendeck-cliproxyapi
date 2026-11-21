@@ -1,0 +1,66 @@
+{
+  "Name": "CLIProxyAPI Quotas",
+  "Description": "Apple Watch–style rings showing how much of each AI subscription is left (5h and weekly), read live from CLIProxyAPI. Read-only.",
+  "Author": "kuba001-pl",
+  "Version": "1.0.0",
+  "URL": "https://github.com/kuba001-pl/opendeck-cliproxyapi",
+  "Icon": "icons/plugin",
+  "Category": "CLIProxyAPI",
+  "CategoryIcon": "icons/category",
+  "CodePath": "bin/plugin.mjs",
+  "CodePathLin": "bin/plugin.mjs",
+  "CodePathMac": "bin/plugin.mjs",
+  "CodePathWin": "bin/plugin.mjs",
+  "PropertyInspectorPath": "propertyInspector/index.html",
+  "OS": [
+    {
+      "Platform": "linux"
+    },
+    {
+      "Platform": "mac",
+      "MinimumVersion": "11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Actions": [
+    {
+      "UUID": "dev.cliproxyapi.opendeck.allsubs",
+      "Name": "All Subscriptions",
+      "Icon": "icons/action-all-subs",
+      "Tooltip": "Every subscription on one key. Press to reload.",
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
+      "SupportedInMultiActions": false,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "States": [
+        {
+          "Image": "icons/key-all-subs",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "UUID": "dev.cliproxyapi.opendeck.singlesub",
+      "Name": "Subscription Detail",
+      "Icon": "icons/action-single-sub",
+      "Tooltip": "One subscription: 5h and weekly left, and when it resets. Press to reload.",
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
+      "SupportedInMultiActions": false,
+      "PropertyInspectorPath": "propertyInspector/index.html",
+      "States": [
+        {
+          "Image": "icons/key-single-sub",
+          "ShowTitle": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "opendeck-cliproxyapi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenDeck plugin that shows how much of each AI subscription is left (5h and weekly), read from CLIProxyAPI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuba001-pl/opendeck-cliproxyapi.git"
+  },
+  "homepage": "https://github.com/kuba001-pl/opendeck-cliproxyapi",
+  "keywords": [
+    "opendeck",
+    "stream-deck",
+    "cliproxyapi",
+    "claude",
+    "codex",
+    "quota"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "preview": "node scripts/preview.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "install:opendeck": "bash scripts/install.sh",
+    "pack:plugin": "bash scripts/pack.sh"
+  }
+}

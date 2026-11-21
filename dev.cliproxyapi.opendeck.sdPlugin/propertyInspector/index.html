@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CLIProxyAPI Quotas settings</title>
+    <link rel="stylesheet" href="pi.css" />
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <symbol id="i-reload" viewBox="0 0 16 16"><path d="M13.5 8a5.5 5.5 0 1 1-1.61-3.89M13.5 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 16 16"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+      <symbol id="i-eye-off" viewBox="0 0 16 16"><path d="M2 2l12 12M6.6 3.7A6.6 6.6 0 0 1 8 3.5c4 0 6.5 4.5 6.5 4.5a11 11 0 0 1-1.9 2.4M4.3 4.9A11 11 0 0 0 1.5 8S4 12.5 8 12.5a6.3 6.3 0 0 0 3-.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <div class="pi">
+      <header class="bar">
+        <div class="tabs" role="tablist" aria-label="Settings sections">
+          <button id="tab-key" class="tab" role="tab" type="button" aria-selected="true" aria-controls="panel-key">Key</button>
+          <button id="tab-subs" class="tab" role="tab" type="button" aria-selected="false" aria-controls="panel-subs" tabindex="-1">
+            Subscriptions <span id="subCountBadge" class="tab-count"></span>
+          </button>
+          <button id="tab-conn" class="tab" role="tab" type="button" aria-selected="false" aria-controls="panel-conn" tabindex="-1">
+            Connection <span id="connDot" class="tab-dot hidden" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="bar-status">
+          <p id="statusText" class="status" aria-live="polite">Connecting…</p>
+          <button id="reloadBtn" type="button" class="btn btn-ghost" aria-label="Reload quotas now" title="Reload now">
+            <svg class="icon" aria-hidden="true"><use href="#i-reload" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- KEY -->
+      <section id="panel-key" class="panel" role="tabpanel" aria-labelledby="tab-key">
+        <div id="keyLayout" class="key-layout">
+          <div id="previewFrame" class="key-preview" role="img" aria-label="Key preview"></div>
+
+          <!-- Subscription detail only: which subscription this key shows -->
+          <div id="singleBlock" class="picker-wrap hidden">
+            <span id="subLbl" class="label">Subscription</span>
+            <div id="subPicker" class="picker" role="radiogroup" aria-labelledby="subLbl"></div>
+          </div>
+
+          <div class="options">
+            <div id="styleRow" class="option">
+              <span id="styleLbl" class="label">Style</span>
+              <div class="segmented" role="radiogroup" aria-labelledby="styleLbl">
+                <label><input type="radio" name="gaugeStyle" value="concentric" /><span>Rings</span></label>
+                <label><input type="radio" name="gaugeStyle" value="grid" /><span>Grid</span></label>
+                <label><input type="radio" name="gaugeStyle" value="segmented" /><span>Dial</span></label>
+              </div>
+            </div>
+            <div class="option">
+              <span id="limitsLbl" class="label">Limits</span>
+              <div class="segmented" role="radiogroup" aria-labelledby="limitsLbl" aria-describedby="limitsHint">
+                <label><input type="radio" name="windowMode" value="bottleneck" /><span id="limitsBoth">Both</span></label>
+                <label><input type="radio" name="windowMode" value="short" /><span>5h</span></label>
+                <label><input type="radio" name="windowMode" value="weekly" /><span>Weekly</span></label>
+              </div>
+              <p id="limitsHint" class="hint"></p>
+            </div>
+            <div id="centerRow" class="option">
+              <span id="centerLbl" class="label">Number in the middle</span>
+              <div class="segmented" role="radiogroup" aria-labelledby="centerLbl">
+                <label><input type="radio" name="centerMetric" value="avg" /><span>Average</span></label>
+                <label><input type="radio" name="centerMetric" value="min" /><span>Lowest</span></label>
+                <label><input type="radio" name="centerMetric" value="count" /><span>Count</span></label>
+              </div>
+            </div>
+            <div class="option">
+              <span id="themeLbl" class="label">Colors</span>
+              <div class="segmented" role="radiogroup" aria-labelledby="themeLbl">
+                <label><input type="radio" name="theme" value="provider" /><span>Brand</span></label>
+                <label><input type="radio" name="theme" value="traffic" /><span>Traffic</span></label>
+                <label><input type="radio" name="theme" value="mono" /><span>Mono</span></label>
+              </div>
+            </div>
+            <label id="groupRow" class="option option-switch">
+              <span class="switch-text">
+                <span class="label-strong">Combine accounts</span>
+                <span class="hint">One ring per provider</span>
+              </span>
+              <input id="groupMode" type="checkbox" role="switch" class="switch" />
+            </label>
+            <label id="resetRow" class="option option-switch hidden">
+              <span class="switch-text">
+                <span class="label-strong">Show reset time</span>
+                <span class="hint">e.g. “5H 52m” under the ring</span>
+              </span>
+              <input id="showReset" type="checkbox" role="switch" class="switch" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUBSCRIPTIONS -->
+      <section id="panel-subs" class="panel" role="tabpanel" aria-labelledby="tab-subs" hidden>
+        <div id="subList" class="sub-grid"></div>
+      </section>
+
+      <!-- CONNECTION -->
+      <section id="panel-conn" class="panel" role="tabpanel" aria-labelledby="tab-conn" hidden>
+        <form id="connForm" class="conn-layout" novalidate>
+          <div class="option">
+            <label for="baseUrl" class="label">Server URL</label>
+            <input id="baseUrl" type="url" inputmode="url" placeholder="http://127.0.0.1:8317" autocomplete="off" spellcheck="false" />
+          </div>
+          <div class="option">
+            <label for="managementKey" class="label">Management password</label>
+            <div class="secret-row">
+              <input id="managementKey" type="password" placeholder="Control Panel password" autocomplete="off" spellcheck="false" aria-describedby="keyHint" />
+              <button id="toggleKeyBtn" type="button" class="btn btn-icon" aria-label="Show password" aria-pressed="false">
+                <svg class="icon" aria-hidden="true"><use href="#i-eye" /></svg>
+              </button>
+            </div>
+            <p id="keyHint" class="hint">The plain password you sign in to the Control Panel with, not the <code>$2a$…</code> hash in config.yaml.</p>
+          </div>
+          <p id="keyWarning" class="callout hidden" role="alert"></p>
+          <div class="option">
+            <span id="refreshLbl" class="label">Auto-refresh</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="refreshLbl">
+              <label><input type="radio" name="refreshIntervalSec" value="0" /><span>Off</span></label>
+              <label><input type="radio" name="refreshIntervalSec" value="60" /><span>1m</span></label>
+              <label><input type="radio" name="refreshIntervalSec" value="300" /><span>5m</span></label>
+              <label><input type="radio" name="refreshIntervalSec" value="900" /><span>15m</span></label>
+              <label><input type="radio" name="refreshIntervalSec" value="1800" /><span>30m</span></label>
+            </div>
+          </div>
+          <div class="option conn-actions">
+            <label class="inline-switch">
+              <span class="label-strong">Include disabled accounts</span>
+              <input id="includeDisabled" type="checkbox" role="switch" class="switch" />
+            </label>
+            <button id="refreshBtn" type="submit" class="btn btn-primary">Save and connect</button>
+          </div>
+        </form>
+        <p class="footnote">Read-only: never changes anything in CLIProxyAPI.</p>
+      </section>
+    </div>
+
+    <script src="pi.js"></script>
+  </body>
+</html>
